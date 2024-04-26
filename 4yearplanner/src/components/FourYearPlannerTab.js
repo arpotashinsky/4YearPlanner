@@ -64,6 +64,9 @@ function FourYearPlannerTab() {
   // Function to toggle highlighting advanced courses
   const toggleHighlightAdvancedCourses = () => {
     setHighlightAdvancedCourses((prevState) => !prevState);
+    if (!advancedDetected){
+      alert('No high courseloads detected'); // Show warning if needed
+    }
   };
 
   // Function to render difficulty indicator
@@ -111,7 +114,7 @@ function FourYearPlannerTab() {
 
   // Declare courseCountMap outside of the renderTermColumn function
   const courseCountMap = {};
-
+  let advancedDetected = false; 
   // Function to render term column
   const renderTermColumn = (year, term) => {
     const courses = groupedSchedule[year][term] || [];
@@ -130,6 +133,12 @@ function FourYearPlannerTab() {
     }, 0);
 
     const cellClassName = isYear2TermD ? 'highlighted-term' : highlightAdvancedCourses && advancedCourseCount >= 3 ? 'red-highlight' : '';
+    
+    
+    if (advancedCourseCount < 3){
+      advancedDetected = true;
+    }
+
 
     return (
       <td key={`${year}-${term}`} className={cellClassName}>
